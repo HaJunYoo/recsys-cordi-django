@@ -14,7 +14,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 
 import environ
-import dj_database_url
+
 import os
 
 # import os
@@ -84,6 +84,9 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',  # 추가
     'django.middleware.common.CommonMiddleware',  # 추가
     'django.middleware.security.SecurityMiddleware',
+
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -91,7 +94,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -124,8 +126,10 @@ DATABASES = {
     }
 }
 
-# db_from_env = dj_database_url.config(conn_max_age = 500)
-# DATABASES['default'].update(db_from_env)
+import dj_database_url
+
+db_from_env = dj_database_url.config(conn_max_age = 500)
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
