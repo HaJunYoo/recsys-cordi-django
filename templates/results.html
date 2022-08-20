@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block main %}
+
+    <style>
+
+    .card {
+        border-radius: 1rem;
+    }
+
+    .container img {
+      border-radius: 1rem;
+    }
+
+    .container h1, h5 {
+        font-family: "Nanum Gothic";
+        font-weight: bolder;
+    }
+
+    .container .card {
+        margin : 0.5rem 1rem;
+    }
+
+    .container p {
+        font-family: "Nanum Gothic";
+    }
+
+    </style>
+
+    <h1 style="text-align: center; margin-top: 2rem; ">
+            Recommendation </h1>
+
+<div class="text-center" style=" margin-top: 2rem ;">
+    <button
+            type="button"
+            onclick="location.href='{% url 'predict:sorted_view_results'%}?sort=rating' ">
+            Rating sort
+    </button>
+
+    <button
+            type="button"
+            onclick="location.href='{% url 'predict:sorted_view_results'%}?sort=cosine_sim' ">
+            Similarity
+    </button>
+
+    <button
+            type="button"
+            onclick="location.href='{% url 'predict:sorted_view_results'%}?sort=man' ">
+            Man
+    </button>
+
+    <button
+            type="button"
+            onclick="location.href='{% url 'predict:sorted_view_results'%}?sort=woman' ">
+            Woman
+    </button>
+
+</div>
+
+<hr>
+    <div class="container">
+
+    <div class="container pt-5">
+        <div class="row justify-content-md-center">
+        {% for data in dataset %}
+
+        <div class="card" style="width: 18rem;">
+          <img class="card-img-top" src="{{ data.img }}" alt="">
+          <div class="card-body">
+            <h5 class="card-title">{{ data.name }}</h5>
+            <p class="card-text">{{ data.review }}</p>
+            <p class="card-text" style="font-weight: bolder">{{ data.price }}</p>
+              <p class="card-text" style="font-weight: bolder">Rate : {{ data.rating | floatformat:2 }}</p>
+          </div>
+        </div>
+
+    {% endfor %}
+
+
+    </div>
+    </div>
+
+<script src = "{% static 'js/magicgrid.js' %}"></script>
+
+<!--<script type="text/javascript">-->
+
+<!--  $(".rating_sort").click(function(e){-->
+
+<!--      // -rating-->
+<!--    var rating_sort = $(this).attr('name')-->
+<!--    e.preventDefault();-->
+
+<!--    $.ajax({ // .like 버튼을 클릭하면 <새로고침> 없이 ajax로 서버와 통신하겠다.-->
+<!--      type: "GET", // 데이터를 전송하는 방법을 지정-->
+
+<!--      url: "{% url 'predict:sorted_view_results' %}", // 통신할 url을 지정-->
+<!--      data: {-->
+<!--          'rating_sort': rating_sort,-->
+<!--          //'csrfmiddlewaretoken': '{{ csrf_token }}'-->
+<!--      }, // 서버로 데이터 전송시 옵션-->
+
+<!--      // dataType: "json", // 서버측에서 전송한 데이터를 어떤 형식의 데이터로서 해석할 것인가를 지정, 없으면 알아서 판단-->
+<!--      // 서버측에서 전송한 Response 데이터 형식 (json)-->
+
+<!--      success: function(){ // 통신 성공시 - 페이지 이동-->
+<!--        alert('Sort Success!');-->
+<!--        // window.location.reload()-->
+<!--        window.location.href = "{% url 'predict:sorted_view_results' %}"-->
+<!--      },-->
+<!--      error: function(request, status, error){ // 통신 실패시 - 로그인 페이지 리다이렉트-->
+<!--        // window.location.reload()-->
+<!--        //  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);-->
+<!--      },-->
+<!--    });-->
+<!--  })-->
+<!--</script>-->
+
+
+{% endblock %}

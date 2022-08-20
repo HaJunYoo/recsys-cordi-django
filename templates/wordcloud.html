@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block main %}
+    <style>
+
+    .card {
+        border-radius: 1rem;
+    }
+
+    .container img {
+      border-radius: 1rem;
+    }
+
+    .container h1, h5 {
+        font-family: "Nanum Gothic";
+        font-weight: bolder;
+    }
+
+    .container .card {
+        margin : 0.5rem 1rem;
+    }
+
+    .container p {
+        font-family: "Nanum Gothic";
+    }
+
+    </style>
+    <h1 style="text-align: center; margin-top: 2rem; ">
+            ☁️ Word Cloud ☁️ </h1>
+    <hr>
+
+    <div class="container" style="text-align: center">
+    <div class="container pt-5">
+        <div class="row justify-content-md-center">
+
+        <img src="{% static '무신사.png' %}"
+        style="width : 70%; height: 50%; margin-top: 1rem;">
+
+
+    </div>
+    </div>
+
+<script src = "{% static 'js/magicgrid.js' %}"></script>
+
+
+
+
+
+{% endblock %}

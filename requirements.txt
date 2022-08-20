@@ -1,0 +1,15 @@
+Django==4.0.3
+djangorestframework==3.13.1
+django-cors-headers==3.11.0
+django-debug-toolbar==3.5.0
+django-environ
+pandas
+environ
+nltk
+gensim
+sklearn
+konlpy
+numpy
+gunicorn
+psycopg2-binary
+dj-database-url

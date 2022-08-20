@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block main %}
+
+<style>
+
+.container h1 {
+    font-family: "Nanum Gothic";
+    font-weight: bolder;
+}
+
+.container .form-group {
+    font-family: "Nanum Gothic";
+}
+
+.container label {
+    font-weight: bolder;
+}
+
+</style>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">CNN-Recommendation Results</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <div>name : <span id="name"></span></div>
+                <div>time : <span id="time"></span></div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a class="btn btn-primary" href="/results" role="button">View DB</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<h1 style="text-align: center; margin-top: 2rem; margin-bottom: 1rem;">Word2vec-CNN-Recommendation Input 🍊</h1>
+<hr>
+
+<div class = "container">
+
+<div class="container pt-5">
+    <div class="row justify-content-md-center">
+{#        column grid medium -> 12/4(3분할) number of 4#}
+        <div class="col-md-6">
+            <form action="" id="post-form">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="main_category">카테고리 입력</label>
+                    <select class="form-control" id = "main_category"  required>
+                      <option selected> 메인 카테고리를 선택해주세요  </option>
+                      {% for elem in list %}
+
+                        <option value={{ elem }}>{{ elem }}</option>
+
+                      {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="input_text">키워드 입력</label>
+                    <input type="text" class="form-control" id="input_text"
+                           placeholder="키워드를 입력해주세요 (명사 위주)" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="top_n">Top-N</label>
+                    <input type="number" step="0.1" class="form-control" id="top_n"
+                           placeholder="양의 정수를 입력해주세요 (권장 20개 이상)" required>
+                </div>
+                <button style ='margin-top: 2rem;' type="submit" value="Submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">제출</button>
+            </form>
+        </div>
+
+
+    </div>
+</div>
+
+</div>
+
+<script>
+
+    $(document).on('submit', '#post-form',function(e){
+        // {# submit -> 연쇄 다음 이벤트 묵살 -> ajax 실행 #}
+        e.preventDefault();
+        $.ajax({
+            type:'POST',
+            //{#app = predict, reference url namespace => submit_prediction #}
+
+            url:'{% url "predict:image_prediction" %}',
+            dataType : "json",
+            data: JSON.stringify({
+                input_text:$('#input_text').val(),
+                top_n:$('#top_n').val(),
+                main_category:$('#main_category').val(),
+
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                // action: 'post'
+            }),
+
+            success:function(json) {
+                // {#form 보냄이 성공하면 적은 내용 사라짐#}
+                document.forms["post-form"].reset();
+                alert('오래 기다리셨습니다!');
+
+                document.getElementById("name").innerHTML = json['name']
+                document.getElementById("time").innerHTML = json['time']
+                // {#document.getElementById("img").innerHTML = json['img']#}
+
+            },
+            error : function(xhr,errmsg,err) {
+                console.log(error);
+            }
+        });
+    })
+
+</script>
+
+{% endblock %}
