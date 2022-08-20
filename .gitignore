@@ -174,7 +174,7 @@ cython_debug/
 
 
 # secret 키 등등
-db.sqlite3
+# db.sqlite3
 
 # 파일
 backend/predict/data/sim_sorted_after.npy
