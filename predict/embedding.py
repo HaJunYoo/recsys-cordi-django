@@ -149,6 +149,7 @@ def recsys(main_category, coordi, keyword):
 
 ################ 이미지 처리 feature extraction #######################
 
+
 ##이미지 featur를 저장한 csv파일을 불러오는 함수
 def load_img_feature():
     img_feature = pd.read_csv("predict/data/img_feature.csv", index_col=0)
@@ -210,4 +211,4 @@ def wordcloud(wc_df):
     word_cloud.to_file('static/무신사.png')
     print('wordcloud 완료')
     # 사이즈 설정 및 화면에 출력
-    ####
+    #
